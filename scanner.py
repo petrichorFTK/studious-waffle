@@ -1,15 +1,17 @@
 import nmap
-import sys
 
-target = str(sys.argv[1])
-ports = [21,22,80,443,445,8080]
+user_tgt = input("Enter a valid IP to scan: ")
+target = str(user_tgt)
+
+user_input = input("Enter ports you wish to scan separated by a space: ")
+ports = [int(i) if i.isdigit() else i for i in user_input.split()]
 
 scan_v = nmap.PortScanner()
 
-print("\nScanning",target,"ports 21,22,80,443,445,8080...\n")
+print("\nScanning "+target+" on ports: "+str(ports))
 
 for port in ports:
     portscan = scan_v.scan(target,str(port))
-    print("Port",port," is ",portscan['scan'][target]['tcp'][port]['state'])
+    print("Port",port,"is",portscan['scan'][target]['tcp'][port]['state'])
 
-print("\nHost",target," is ",portscan['scan'][target]['status']['state'])
+print("\nHost",target,"is",portscan['scan'][target]['status']['state'])
